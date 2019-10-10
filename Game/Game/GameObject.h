@@ -34,6 +34,7 @@ namespace SnakeGame
     public:
         GameObject() = delete;
         GameObject( Util::Point point, BlockColor color, std::string symbol );
+        virtual ~GameObject() = default;
 
         virtual void DrawObject();
 

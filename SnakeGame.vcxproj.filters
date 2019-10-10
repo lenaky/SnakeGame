@@ -31,6 +31,9 @@
     <ClCompile Include="Game\Game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Game\GameManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Input\ConsoleKeyboardInput.h">
@@ -49,6 +52,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Game\Player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game\GameManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game\GameManagerBase.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

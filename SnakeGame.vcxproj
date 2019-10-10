@@ -111,6 +111,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game\Game\GameField.cpp" />
+    <ClCompile Include="Game\Game\GameManager.cpp" />
     <ClCompile Include="Game\Game\GameObject.cpp" />
     <ClCompile Include="Game\Game\Player.cpp" />
     <ClCompile Include="Game\Input\ConsoleKeyboardInput.cpp" />
@@ -119,7 +120,9 @@
   <ItemGroup>
     <ClInclude Include="Game\ErrorDefine.h" />
     <ClInclude Include="Game\Game\GameField.h" />
+    <ClInclude Include="Game\Game\GameManager.h" />
     <ClInclude Include="Game\Game\GameObject.h" />
+    <ClInclude Include="Game\Game\GameManagerBase.h" />
     <ClInclude Include="Game\Game\Player.h" />
     <ClInclude Include="Game\Input\ConsoleKeyboardInput.h" />
     <ClInclude Include="Game\Util.hpp" />

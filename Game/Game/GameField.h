@@ -7,10 +7,17 @@
 
 namespace SnakeGame
 {
-    class GameField : public GameObject
+    class GameField
     {
+    public:
+        GameField() = delete;
+        GameField( int width, int height );
+        ~GameField();
     private:
-        int 
+        int _map_width = 0;
+        int _map_height = 0;
+        //std::vector<GameObject> _field;
+        
     };
 }
 

@@ -1,6 +1,8 @@
 #ifndef _UTIL_HPP
 #define _UTIL_HPP
 
+#include <iostream>
+
 #include <Windows.h>
 
 namespace Util
@@ -43,6 +45,15 @@ namespace Util
             std::cout << "SetConsoleScreenBufferSize failed" << std::endl;
             return;
         }
+    }
+    
+    static void HideCursor()
+    {
+        HANDLE consoleHandle = GetStdHandle( STD_OUTPUT_HANDLE );
+        CONSOLE_CURSOR_INFO info;
+        info.dwSize = 100;
+        info.bVisible = FALSE;
+        SetConsoleCursorInfo( consoleHandle, &info );
     }
 
     static void GotoPosition( Point const& p )
