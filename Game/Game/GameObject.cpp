@@ -16,4 +16,16 @@ namespace SnakeGame
         Util::GotoPosition( _point );
         std::cout << _symbol.c_str() << std::endl;
     }
+
+    void GameObject::ClearObject()
+    {
+        Util::GotoPosition( _point );
+        std::cout << " " << std::endl;
+    }
+
+    void GameObject::SetPosition( Util::Point const& point )
+    {
+        _point.x = point.x;
+        _point.y = point.y;
+    }
 };

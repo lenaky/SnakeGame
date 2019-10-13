@@ -37,6 +37,10 @@ namespace SnakeGame
         virtual ~GameObject() = default;
 
         virtual void DrawObject();
+        virtual void ClearObject();
+
+        void SetPosition( Util::Point const& point );
+        Util::Point const& GetPosition() const { return _point; }
 
     private:
         Util::Point _point;

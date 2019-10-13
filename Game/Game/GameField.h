@@ -13,10 +13,13 @@ namespace SnakeGame
         GameField() = delete;
         GameField( int width, int height );
         ~GameField();
+
+        void ShowField();
+
     private:
         int _map_width = 0;
         int _map_height = 0;
-        //std::vector<GameObject> _field;
+        std::vector<GameObject> _field;
         
     };
 }
