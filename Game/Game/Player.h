@@ -7,6 +7,7 @@ namespace SnakeGame
 {
     enum _MOVING_DIRECTION
     {
+        DIRECTION_NONE = -1,
         DIRECTION_UP = 0,
         DIRECTION_LEFT = 1,
         DIRECTION_DOWN = 2,
@@ -18,17 +19,31 @@ namespace SnakeGame
     class Player
     {
     public:
-        Player() = default;
-        Player( int default_length );
+        Player();
 
         void Move();
 
         void ShowBody();
 
+        void ClearBody();
+
         void AddBody();
 
+        bool CheckDeadBySelf();
+
+        void SetDirection( MOVING_DIRECTION const direction )
+        {
+            if( true == _Changable( direction ) )
+            {
+                _direction = direction;
+            }            
+        }
+
     private:
-        int _default_body_length = 0;
+        bool _Changable( MOVING_DIRECTION const direction );
+        MOVING_DIRECTION _Opposite( MOVING_DIRECTION const direction ) const;
+        
+    private:
         std::vector<GameObject> _body;
 
         MOVING_DIRECTION _direction = DIRECTION_DOWN; // default right

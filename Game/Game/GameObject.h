@@ -33,19 +33,21 @@ namespace SnakeGame
     {
     public:
         GameObject() = delete;
-        GameObject( Util::Point point, BlockColor color, std::string symbol );
+        GameObject( Util::Point point, BlockColor color, std::string symbol, bool show );
         virtual ~GameObject() = default;
 
         virtual void DrawObject();
         virtual void ClearObject();
 
         void SetPosition( Util::Point const& point );
+        void SetVisible( bool show );
         Util::Point const& GetPosition() const { return _point; }
 
     private:
         Util::Point _point;
         BlockColor _color = BLOCK_COLOR_BLACK;
         std::string _symbol;
+        bool _show = false;
 
     };
 }

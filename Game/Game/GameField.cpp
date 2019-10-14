@@ -11,13 +11,13 @@ namespace SnakeGame
             {
                 if( y == 0 || y == height - 1 )
                 {
-                    _field.push_back( { { x * 2, y }, BLOCK_COLOR_WHITE, std::string( "бс" ) } );
+                    _field.push_back( { { x * 2, y }, BLOCK_COLOR_WHITE, std::string( "бс" ), true } );
                 }
                 else
                 {
                     if( x == 0 || x == width - 1 )
                     {
-                        _field.push_back( { { x * 2, y }, BLOCK_COLOR_WHITE, std::string( "бс" ) } );
+                        _field.push_back( { { x * 2, y }, BLOCK_COLOR_WHITE, std::string( "бс" ), true } );
                     }
                 }                
             }

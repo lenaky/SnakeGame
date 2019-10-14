@@ -4,43 +4,50 @@
 
 namespace SnakeGame
 {
-    Player::Player( int default_length ) : _default_body_length( default_length )
+    Player::Player()
     {
-        _body.push_back( { { 4,4 }, BLOCK_COLOR_RED, std::string( "бс" ) } );
-        _body.push_back( { { 4,3 }, BLOCK_COLOR_RED, std::string( "бс" ) } );
-        _body.push_back( { { 4,2 }, BLOCK_COLOR_RED, std::string( "б▄" ) } );
+        _body.push_back( { { 4,4 }, BLOCK_COLOR_RED, std::string( "б▄" ), true } );
+        _body.push_back( { { 4,3 }, BLOCK_COLOR_RED, std::string( "бс" ), true } );
+        _body.push_back( { { 4,2 }, BLOCK_COLOR_RED, std::string( "бс" ), true } );
     }
 
     void Player::Move()
     {
+        int index = 0;
+
+        Util::Point prev_point( 0, 0 );
+
         for( auto& body : _body )
         {
-            switch( _direction )
+            if( 0 == index )
             {
+                prev_point = body.GetPosition();
+
+                switch( _direction )
+                {
                 case DIRECTION_DOWN:
-                {
-                    auto point = body.GetPosition();
-                    body.SetPosition( { point.x, point.y + 1 } );
-                } break;
+                    body.SetPosition( { prev_point.x, prev_point.y + 1 } );
+                    break;
                 case DIRECTION_LEFT:
-                {
-                    auto point = body.GetPosition();
-                    body.SetPosition( { point.x - 2, point.y } );
-
-                } break;
+                    body.SetPosition( { prev_point.x - 2, prev_point.y } );
+                    break;
                 case DIRECTION_RIGHT:
-                {
-                    auto point = body.GetPosition();
-                    body.SetPosition( { point.x + 2, point.y } );
-
-                } break;
+                    body.SetPosition( { prev_point.x + 2, prev_point.y } );
+                    break;
                 case DIRECTION_UP:
-                {
-                    auto point = body.GetPosition();
-                    body.SetPosition( { point.x, point.y - 1 } );
-
-                } break;
+                    body.SetPosition( { prev_point.x, prev_point.y - 1 } );
+                    break;
+                }
             }
+            else
+            {
+                auto temp_point = body.GetPosition();
+                body.SetPosition( prev_point );
+                body.SetVisible( true );
+                prev_point = temp_point;
+            }
+
+            index++;
         }
     }
 
@@ -52,8 +59,48 @@ namespace SnakeGame
         }
     }
 
+    void Player::ClearBody()
+    {
+        for( auto& body : _body )
+        {
+            body.ClearObject();
+        }
+    }
+
     void Player::AddBody()
     {
+        _body.push_back( { { 0,0 }, BLOCK_COLOR_RED, std::string( "бс" ), false } );
+    }
 
+    bool Player::CheckDeadBySelf()
+    {
+
+    }
+
+    bool Player::_Changable( MOVING_DIRECTION const direction )
+    {
+        if( _Opposite( _direction ) == direction )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    MOVING_DIRECTION Player::_Opposite( MOVING_DIRECTION const direction ) const
+    {
+        switch( direction )
+        {
+        case DIRECTION_DOWN:
+            return DIRECTION_UP;
+        case DIRECTION_UP:
+            return DIRECTION_DOWN;
+        case DIRECTION_LEFT:
+            return DIRECTION_RIGHT;
+        case DIRECTION_RIGHT:
+            return DIRECTION_LEFT;
+        }
+
+        return DIRECTION_NONE;
     }
 };

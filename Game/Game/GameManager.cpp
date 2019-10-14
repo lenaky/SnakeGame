@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "../Game/GameField.h"
+#include "../Game/Player.h"
 
 #include "../Input/ConsoleKeyboardInput.h"
 #include "../Util.hpp"
@@ -11,7 +12,7 @@ namespace SnakeGame
 {
     GameManager::GameManager() : _kbd_input( new ConsoleInput::ConsoleKeyboardInput() )
     {
-
+        Util::HideCursor();
     }
 
     GameManager::~GameManager()
@@ -72,6 +73,35 @@ namespace SnakeGame
         }
     }
 
+    void GameManager::KeyEventProc( KEY_EVENT_RECORD ker, std::shared_ptr<Player>& player )
+    {
+        if( ker.bKeyDown )
+        {
+            switch( ker.wVirtualKeyCode )
+            {
+            case VK_LEFT:
+                player->SetDirection( DIRECTION_LEFT );
+                break;
+            case VK_RIGHT:
+                player->SetDirection( DIRECTION_RIGHT );
+                break;
+            case VK_DOWN:
+                player->SetDirection( DIRECTION_DOWN );
+                break;
+            case VK_UP:
+                player->SetDirection( DIRECTION_UP );
+                break;
+            case VK_SHIFT:
+                player->AddBody();
+                break;
+            case VK_ESCAPE:
+                std::cout << "game exit...." << std::endl;
+                StopGame();
+                break;
+            }
+        }
+    }
+
     void GameManager::GameThread( GameManagerBase* handle )
     {
         GameManager* pThis = dynamic_cast< GameManager* >( handle );
@@ -83,20 +113,53 @@ namespace SnakeGame
 
         pThis->ShowField();
 
+        auto& player = std::shared_ptr<Player>( new Player() );
+        player->ShowBody();
+
         auto base_time = std::chrono::system_clock::now();
 
         while( pThis->ThreadStatus() )
         {
-            auto current_time = std::chrono::system_clock::now();
-            if( std::chrono::duration_cast<std::chrono::milliseconds>( current_time - base_time ).count() > pThis->GetRefreshMS() )
-            {
-                base_time = current_time;
-            }
-
-
+            DWORD cNumRead;
+            INPUT_RECORD irInBuf[ 128 ];
 
             std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
 
+            auto current_time = std::chrono::system_clock::now();
+            if( std::chrono::duration_cast<std::chrono::milliseconds>( current_time - base_time ).count() > pThis->GetRefreshMS() )
+            {
+                player->ClearBody();
+                player->Move();
+                player->ShowBody();                
+                base_time = current_time;
+            }
+
+            DWORD numEvents = 0;
+            GetNumberOfConsoleInputEvents( pThis->_kbd_input->GetHandle(), &numEvents );
+
+            if( 0 >= numEvents )
+            {
+                continue;
+            }
+
+            if( !ReadConsoleInput(
+                pThis->_kbd_input->GetHandle(),
+                irInBuf,
+                128,
+                &cNumRead ) )
+            {
+                continue;
+            }
+
+            for( DWORD i = 0; i < cNumRead; i++ )
+            {
+                switch( irInBuf[ i ].EventType )
+                {
+                case KEY_EVENT:
+                    pThis->KeyEventProc( irInBuf[ i ].Event.KeyEvent, player );
+                    break;
+                }
+            }
         }
     }
 }

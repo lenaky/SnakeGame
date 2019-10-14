@@ -11,6 +11,7 @@ namespace ConsoleInput
 namespace SnakeGame
 {
     class GameField;
+    class Player;
 
     class GameManager : public GameManagerBase
     {
@@ -34,6 +35,8 @@ namespace SnakeGame
         void ShowField();
 
         void DestroyGame();
+
+        void KeyEventProc( KEY_EVENT_RECORD ker, std::shared_ptr<Player>& player );
 
         static void GameThread( GameManagerBase* handle );
 
