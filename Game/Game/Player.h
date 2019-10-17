@@ -1,5 +1,5 @@
-#ifndef _PLAYER
-#define _PLAYER
+#ifndef _PLAYER_H_
+#define _PLAYER_H_
 
 #include "GameObject.h"
 
@@ -16,6 +16,8 @@ namespace SnakeGame
 
     using MOVING_DIRECTION = enum _MOVING_DIRECTION;
 
+    class GameField;
+
     class Player
     {
     public:
@@ -31,11 +33,14 @@ namespace SnakeGame
 
         bool CheckDeadBySelf();
 
+        bool CheckDeadByCollision( GameField const* field );
+
         void SetDirection( MOVING_DIRECTION const direction )
         {
             if( true == _Changable( direction ) )
             {
                 _direction = direction;
+                _direction_buffer = direction;
             }            
         }
 
@@ -47,6 +52,7 @@ namespace SnakeGame
         std::vector<GameObject> _body;
 
         MOVING_DIRECTION _direction = DIRECTION_DOWN; // default right
+        MOVING_DIRECTION _direction_buffer = DIRECTION_NONE;
     };
 }
 

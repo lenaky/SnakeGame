@@ -130,6 +130,18 @@ namespace SnakeGame
             {
                 player->ClearBody();
                 player->Move();
+                if( true == player->CheckDeadBySelf() )
+                {
+                    pThis->StopGame();
+                    break;
+                }
+
+                if( true == player->CheckDeadByCollision( pThis->GetField() ) )
+                {
+                    pThis->StopGame();
+                    break;
+                }
+
                 player->ShowBody();                
                 base_time = current_time;
             }

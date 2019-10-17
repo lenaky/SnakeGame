@@ -1,5 +1,5 @@
-#ifndef _GAME_FIELD
-#define _GAME_FIELD
+#ifndef _GAME_FIELD_H_
+#define _GAME_FIELD_H_
 
 #include <vector>
 
@@ -15,6 +15,8 @@ namespace SnakeGame
         ~GameField();
 
         void ShowField();
+
+        friend class Player;
 
     private:
         int _map_width = 0;

@@ -2,6 +2,7 @@
 #define _UTIL_HPP
 
 #include <iostream>
+#include <random>
 
 #include <Windows.h>
 
@@ -10,8 +11,24 @@ namespace Util
     struct Point
     {
         Point( int x_, int y_ ) : x( x_ ), y( y_ ) { }
+        bool operator==( Point const& rhs ) const
+        {
+            if( rhs.x == x && rhs.y == y )
+            {
+                return true;
+            }
+
+            return false;
+        }
         int x = 0;
         int y = 0;
+    };
+
+    struct Range
+    {
+        Range( std::int64_t begin, std::int64_t end ) : begin_( begin ), end_( end ) { }
+        std::int64_t begin_ = 0;
+        std::int64_t end_ = 0;
     };
 
     static void SetConsoleSize( int width, int height )
@@ -64,6 +81,15 @@ namespace Util
         SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), Cur );
     }
 
+    template<typename T>
+    static T GetRandom( T min, T max )
+    {
+        std::random_device random_device;
+        std::mt19937_64 mt( random_device() );
+        std::uniform_int_distribution<T> range( min, max );
+
+        return range( mt );
+    }
 }
 
 #endif

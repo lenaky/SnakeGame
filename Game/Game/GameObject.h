@@ -1,5 +1,5 @@
-#ifndef _GAME_OBJECT
-#define _GAME_OBJECT
+#ifndef _GAME_OBJECT_H_
+#define _GAME_OBJECT_H_
 
 #include <vector>
 
@@ -35,6 +35,24 @@ namespace SnakeGame
         GameObject() = delete;
         GameObject( Util::Point point, BlockColor color, std::string symbol, bool show );
         virtual ~GameObject() = default;
+
+        bool operator< ( GameObject const& rhs ) const
+        {
+            if( _point.x < rhs._point.x)
+            {
+                return true;
+            }
+
+            if( _point.x == rhs._point.x )
+            {
+                if( _point.y < rhs._point.y )
+                {
+                    return true;
+                }                    
+            }
+
+            return false;
+        }
 
         virtual void DrawObject();
         virtual void ClearObject();

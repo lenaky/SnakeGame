@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Game\Feed.cpp" />
     <ClCompile Include="Game\Game\GameField.cpp" />
     <ClCompile Include="Game\Game\GameManager.cpp" />
     <ClCompile Include="Game\Game\GameObject.cpp" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\ErrorDefine.h" />
+    <ClInclude Include="Game\Game\Feed.h" />
     <ClInclude Include="Game\Game\GameField.h" />
     <ClInclude Include="Game\Game\GameManager.h" />
     <ClInclude Include="Game\Game\GameObject.h" />

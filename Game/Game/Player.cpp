@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "GameField.h"
 #include "Player.h"
 
 namespace SnakeGame
@@ -49,6 +50,8 @@ namespace SnakeGame
 
             index++;
         }
+
+        _direction_buffer = DIRECTION_NONE; // clear buffer
     }
 
     void Player::ShowBody()
@@ -61,9 +64,9 @@ namespace SnakeGame
 
     void Player::ClearBody()
     {
-        for( auto& body : _body )
+        if( _body.size() > 0 )
         {
-            body.ClearObject();
+            _body[ _body.size() - 1 ].ClearObject();
         }
     }
 
@@ -74,11 +77,49 @@ namespace SnakeGame
 
     bool Player::CheckDeadBySelf()
     {
+        if( _body.size() > 0 )
+        {
+            auto& head = _body[ 0 ];
+            int index = 0;
+            for( auto const& body : _body )
+            {
+                if( 0 == index++ )
+                    continue;
 
+                if( body.GetPosition() == head.GetPosition() )
+                {
+                    return true; // dead
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool Player::CheckDeadByCollision( GameField const* field )
+    {
+        if( _body.size() > 0 )
+        {
+            auto& head = _body[ 0 ];
+            for( auto const& field : field->_field )
+            {
+                if( head.GetPosition() == field.GetPosition() )
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     bool Player::_Changable( MOVING_DIRECTION const direction )
     {
+        if( _direction_buffer != DIRECTION_NONE )
+        {
+            return false;
+        }
+
         if( _Opposite( _direction ) == direction )
         {
             return false;
