@@ -4,6 +4,11 @@
 
 namespace SnakeGame
 {
+    GameObject::GameObject( Util::Point point ) : _point( point )
+    {
+
+    }
+
     GameObject::GameObject( Util::Point point, 
                             BlockColor color, 
                             std::string symbol,
@@ -12,7 +17,7 @@ namespace SnakeGame
 
     }
 
-    void GameObject::DrawObject()
+    void GameObject::DrawObject() const
     {
         if( false == _show )
             return;
@@ -24,7 +29,7 @@ namespace SnakeGame
         std::cout << _symbol.c_str() << std::endl;
     }
 
-    void GameObject::ClearObject()
+    void GameObject::ClearObject() const
     {
         if( false == _show )
             return;

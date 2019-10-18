@@ -9,7 +9,8 @@ namespace SnakeGame
 {
     enum BLOCK_COLOR
     {
-        BLOCK_COLOR_BLACK = 0,
+        BLOCK_COLOR_START = 0,
+        BLOCK_COLOR_BLACK = BLOCK_COLOR_START,
         BLOCK_COLOR_BLUE,
         BLOCK_COLOR_GREEN,
         BLOCK_COLOR_CYAN,
@@ -24,7 +25,8 @@ namespace SnakeGame
         BLOCK_COLOR_LIGHTRED,
         BLOCK_COLOR_LIGHTMAGENTA,
         BLOCK_COLOR_YELLOW,
-        BLOCK_COLOR_WHITE
+        BLOCK_COLOR_WHITE,
+        BLOCK_COLOR_END = BLOCK_COLOR_WHITE
     };
 
     using BlockColor = enum BLOCK_COLOR;
@@ -33,6 +35,7 @@ namespace SnakeGame
     {
     public:
         GameObject() = delete;
+        explicit GameObject( Util::Point point );
         GameObject( Util::Point point, BlockColor color, std::string symbol, bool show );
         virtual ~GameObject() = default;
 
@@ -54,11 +57,12 @@ namespace SnakeGame
             return false;
         }
 
-        virtual void DrawObject();
-        virtual void ClearObject();
+        virtual void DrawObject() const;
+        virtual void ClearObject() const;
 
         void SetPosition( Util::Point const& point );
         void SetVisible( bool show );
+        bool GetVisible() const { return _show; }
         Util::Point const& GetPosition() const { return _point; }
 
     private:

@@ -39,6 +39,7 @@ namespace SnakeGame
         void KeyEventProc( KEY_EVENT_RECORD ker, std::shared_ptr<Player>& player );
 
         GameField const* GetField() const { return _field; }
+        GameField* GetField() { return _field; }
 
         static void GameThread( GameManagerBase* handle );
 

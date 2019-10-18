@@ -7,6 +7,8 @@
 
 namespace SnakeGame
 {
+    class Feed;
+
     class GameField
     {
     public:
@@ -18,10 +20,14 @@ namespace SnakeGame
 
         friend class Player;
 
+        Feed* GetFeed() { return _feed; }
+
     private:
         int _map_width = 0;
         int _map_height = 0;
         std::vector<GameObject> _field;
+
+        Feed* _feed = nullptr;
         
     };
 }

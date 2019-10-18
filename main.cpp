@@ -9,7 +9,7 @@ int main()
 
     gm.InitGame( { 100, 50 }, 
                  { 49, 45 }, 
-                 10, 
+                 100, 
                  100 );
     gm.StartGame();
     gm.WaitExit();

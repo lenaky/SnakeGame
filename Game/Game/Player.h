@@ -31,6 +31,8 @@ namespace SnakeGame
 
         void AddBody();
 
+        bool ConsumeFeed( GameField* field );
+
         bool CheckDeadBySelf();
 
         bool CheckDeadByCollision( GameField const* field );
@@ -43,6 +45,8 @@ namespace SnakeGame
                 _direction_buffer = direction;
             }            
         }
+
+        bool IsBody( Util::Point const& point ) const;
 
     private:
         bool _Changable( MOVING_DIRECTION const direction );

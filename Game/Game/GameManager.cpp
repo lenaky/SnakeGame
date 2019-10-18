@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "../Game/GameField.h"
+#include "../Game/Feed.h"
 #include "../Game/Player.h"
 
 #include "../Input/ConsoleKeyboardInput.h"
@@ -52,6 +53,7 @@ namespace SnakeGame
         }
 
         _field = new GameField( field_size.width_, field_size.height_ );
+
 
         return ErrorDefine::ERROR_NONE;
     }
@@ -112,9 +114,10 @@ namespace SnakeGame
         }
 
         pThis->ShowField();
-
         auto& player = std::shared_ptr<Player>( new Player() );
         player->ShowBody();
+
+        pThis->GetField()->GetFeed()->StartCheck();
 
         auto base_time = std::chrono::system_clock::now();
 
@@ -130,6 +133,11 @@ namespace SnakeGame
             {
                 player->ClearBody();
                 player->Move();
+                if( true == player->ConsumeFeed( pThis->GetField() ) )
+                {
+                    player->AddBody();
+                }
+
                 if( true == player->CheckDeadBySelf() )
                 {
                     pThis->StopGame();
@@ -145,6 +153,8 @@ namespace SnakeGame
                 player->ShowBody();                
                 base_time = current_time;
             }
+
+            pThis->GetField()->GetFeed()->TryFeed( player.get() );
 
             DWORD numEvents = 0;
             GetNumberOfConsoleInputEvents( pThis->_kbd_input->GetHandle(), &numEvents );

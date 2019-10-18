@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GameField.h"
+#include "Feed.h"
 #include "Player.h"
 
 namespace SnakeGame
@@ -75,6 +76,26 @@ namespace SnakeGame
         _body.push_back( { { 0,0 }, BLOCK_COLOR_RED, std::string( "¡á" ), false } );
     }
 
+    bool Player::ConsumeFeed( GameField* field )
+    {
+        bool consume = false;
+        if( _body.size() > 0 )
+        {
+            auto feed = field->GetFeed();
+            auto& head = _body[ 0 ];
+            auto const& point = head.GetPosition();
+
+            auto collison_feed = field->GetFeed()->GetFeeds().find( head );
+            if( collison_feed != field->GetFeed()->GetFeeds().end() ) // Ãæµ¹
+            {
+                field->GetFeed()->RemoveFeed( point );
+                consume = true;
+            }
+        }
+
+        return consume;
+    }
+
     bool Player::CheckDeadBySelf()
     {
         if( _body.size() > 0 )
@@ -107,6 +128,19 @@ namespace SnakeGame
                 {
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    bool Player::IsBody( Util::Point const& point ) const
+    {
+        for( auto const& body : _body )
+        {
+            if( body.GetPosition() == point )
+            {
+                return true;
             }
         }
 

@@ -1,4 +1,5 @@
 #include "GameField.h"
+#include "Feed.h"
 
 namespace SnakeGame
 {
@@ -22,6 +23,8 @@ namespace SnakeGame
                 }                
             }
         }
+
+        _feed = new Feed( 2000, 2, 10, { 2, width * 2 }, { 1, height - 1 } );
     }
 
     void GameField::ShowField()
@@ -34,6 +37,10 @@ namespace SnakeGame
 
     GameField::~GameField()
     {
-
+        if( nullptr != _feed )
+        {
+            delete _feed;
+            _feed = nullptr;
+        }
     }
 }
